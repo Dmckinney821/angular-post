@@ -1,6 +1,16 @@
 const express = require("express");
 const bodyParser = require('body-parser')
 const app = express();
+const mongoose = require('mongoose')
+const postsRoutes = require('./routes/posts')
+
+mongoose.connect('mongodb+srv://thedan:FEocm9BWtnLuO8Wb@cluster0-en2uh.mongodb.net/node-angular?retryWrites=true&w=majority')
+.then(() => {
+    console.log('Connected')
+})
+.catch(() => {
+    console.log('Something is wrong')
+})
 
 app.use(bodyParser.json())
 
@@ -12,36 +22,11 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   next();
 });
 
-app.post('/api/posts', (req, res, next) => {
-    const post = req.body;
-    console.log(post)
-    res.status(201).json({
-        message: 'Post added successfully'
-    })
-})
-
-app.use("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "fadf12421l",
-      title: "First server-side post",
-      content: "This is coming from the server"
-    },
-    {
-      id: "ksajflaj132",
-      title: "Second server-side post",
-      content: "This is coming from the server!"
-    }
-  ];
-  res.status(200).json({
-    message: "Posts fetched succesfully!",
-    posts: posts
-  });
-});
+app.use('/api/posts', postsRoutes)
 
 module.exports = app;
