@@ -6,7 +6,9 @@ const postsRoutes = require('./routes/posts')
 const userRoutes = require('./routes/user')
 const path = require('path')
 
-mongoose.connect('mongodb+srv://thedan:FEocm9BWtnLuO8Wb@cluster0-en2uh.mongodb.net/node-angular?retryWrites=true&w=majority')
+mongoose.connect("mongodb+srv://thedan:" + 
+process.env.MONGO_ATLAS_PW + 
+"@cluster0-en2uh.mongodb.net/node-angular?retryWrites=true&w=majority")
 .then(() => {
     console.log('Connected')
 })
